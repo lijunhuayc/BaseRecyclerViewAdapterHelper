@@ -11,6 +11,7 @@ import com.chad.baserecyclerviewadapterhelper.adapter.node.tree.NodeTreeAdapter;
 import com.chad.baserecyclerviewadapterhelper.entity.node.tree.FirstNode;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ public class FirstProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @NotNull BaseNode data) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @NotNull BaseNode data) {
         FirstNode entity = (FirstNode) data;
         helper.setText(R.id.title, entity.getTitle());
         helper.setImageResource(R.id.iv, R.mipmap.arrow_r);
@@ -39,7 +40,7 @@ public class FirstProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @NotNull BaseNode data, @NotNull List<?> payloads) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @NotNull BaseNode data, @NotNull List<?> payloads) {
         for (Object payload : payloads) {
             if (payload instanceof Integer && (int) payload == NodeTreeAdapter.EXPAND_COLLAPSE_PAYLOAD) {
                 // 增量刷新，使用动画变化箭头
@@ -75,7 +76,7 @@ public class FirstProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+    public void onClick(@NotNull BaseDataBindingHolder helper, @NotNull View view, BaseNode data, int position) {
         // 这里使用payload进行增量刷新（避免整个item刷新导致的闪烁，不自然）
         getAdapter().expandOrCollapse(position, true, true, NodeTreeAdapter.EXPAND_COLLAPSE_PAYLOAD);
     }

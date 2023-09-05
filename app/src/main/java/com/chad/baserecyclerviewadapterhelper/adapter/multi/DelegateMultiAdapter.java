@@ -11,15 +11,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DelegateMultiAdapter extends BaseDelegateMultiAdapter<DelegateMultiEntity, BaseViewHolder> {
+public class DelegateMultiAdapter extends BaseDelegateMultiAdapter<Object, BaseViewHolder> {
 
     public DelegateMultiAdapter() {
         super();
         // 方式一，使用匿名内部类，进行如下两步：
         // 第一步，设置代理
-        setMultiTypeDelegate(new BaseMultiTypeDelegate<DelegateMultiEntity>() {
+        setMultiTypeDelegate(new BaseMultiTypeDelegate<Object>() {
             @Override
-            public int getItemType(@NotNull List<? extends DelegateMultiEntity> data, int position) {
+            public int getItemType(@NotNull List<? extends Object> data, int position) {
+                if(data.get(position) instanceof DelegateMultiEntity){
+
+                }
                 switch (position % 3) {
                     case 0:
                         return DelegateMultiEntity.TEXT;
@@ -46,7 +49,7 @@ public class DelegateMultiAdapter extends BaseDelegateMultiAdapter<DelegateMulti
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder helper, @NotNull DelegateMultiEntity item) {
+    protected void convert(@NotNull BaseViewHolder helper, @NotNull Object item) {
         switch (helper.getItemViewType()) {
             case QuickMultipleEntity.TEXT:
                 helper.setText(R.id.tv, "CymChad " + helper.getAdapterPosition());
@@ -70,7 +73,7 @@ public class DelegateMultiAdapter extends BaseDelegateMultiAdapter<DelegateMulti
     }
 
     // 方式二：实现自己的代理类
-    final static class MyMultiTypeDelegate extends BaseMultiTypeDelegate<DelegateMultiEntity> {
+    final static class MyMultiTypeDelegate extends BaseMultiTypeDelegate<Object> {
 
         public MyMultiTypeDelegate() {
             addItemType(DelegateMultiEntity.TEXT, R.layout.item_text_view);
@@ -79,7 +82,7 @@ public class DelegateMultiAdapter extends BaseDelegateMultiAdapter<DelegateMulti
         }
 
         @Override
-        public int getItemType(@NotNull List<? extends DelegateMultiEntity> data, int position) {
+        public int getItemType(@NotNull List<? extends Object> data, int position) {
             switch (position % 3) {
                 case 0:
                     return DelegateMultiEntity.TEXT;

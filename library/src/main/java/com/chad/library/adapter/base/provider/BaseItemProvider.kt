@@ -6,28 +6,26 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import com.chad.library.adapter.base.BaseProviderMultiAdapter
-import com.chad.library.adapter.base.util.getItemView
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import java.lang.ref.WeakReference
 
 /**
  * [BaseProviderMultiAdapter] 的Provider基类
  * @param T 数据类型
  */
-abstract class BaseItemProvider<T> {
+abstract class BaseItemProvider<T, VH : BaseViewHolder> {
 
     lateinit var context: Context
 
-    private var weakAdapter: WeakReference<BaseProviderMultiAdapter<T>>? = null
+    private lateinit var weakAdapter: BaseProviderMultiAdapter<*, VH>
     private val clickViewIds by lazy(LazyThreadSafetyMode.NONE) { ArrayList<Int>() }
     private val longClickViewIds by lazy(LazyThreadSafetyMode.NONE) { ArrayList<Int>() }
 
-    internal fun setAdapter(adapter: BaseProviderMultiAdapter<T>) {
-        weakAdapter = WeakReference(adapter)
+    internal fun setAdapter(adapter: BaseProviderMultiAdapter<*, VH>) {
+        weakAdapter = adapter
     }
 
-    open fun getAdapter(): BaseProviderMultiAdapter<T>? {
-        return weakAdapter?.get()
+    open fun getAdapter(): BaseProviderMultiAdapter<T, VH> {
+        return weakAdapter as BaseProviderMultiAdapter<T, VH>
     }
 
     abstract val itemViewType: Int
@@ -36,9 +34,9 @@ abstract class BaseItemProvider<T> {
         @LayoutRes
         get
 
-    abstract fun convert(helper: BaseViewHolder, item: T)
+    abstract fun convert(helper: VH, item: T)
 
-    open fun convert(helper: BaseViewHolder, item: T, payloads: List<Any>) {}
+    open fun convert(helper: VH, item: T, payloads: List<Any>) {}
 
     /**
      * （可选重写）创建 ViewHolder。
@@ -46,15 +44,16 @@ abstract class BaseItemProvider<T> {
      *
      * @param parent
      */
-    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        return BaseViewHolder(parent.getItemView(layoutId))
+    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        return getAdapter().createBaseViewHolder(parent, layoutId)
+//        return BaseViewHolder(parent.getItemView(layoutId))
     }
 
     /**
      * （可选重写）ViewHolder创建完毕以后的回掉方法。
      * @param viewHolder VH
      */
-    open fun onViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int) {}
+    open fun onViewHolderCreated(viewHolder: VH, viewType: Int) {}
 
     /**
      * Called when a view created by this [BaseItemProvider] has been attached to a window.
@@ -67,7 +66,7 @@ abstract class BaseItemProvider<T> {
      *
      * @param holder Holder of the view being attached
      */
-    open fun onViewAttachedToWindow(holder: BaseViewHolder) {}
+    open fun onViewAttachedToWindow(holder: VH) {}
 
     /**
      * Called when a view created by this [BaseItemProvider] has been detached from its
@@ -80,7 +79,7 @@ abstract class BaseItemProvider<T> {
      *
      * @param holder Holder of the view being detached
      */
-    open fun onViewDetachedFromWindow(holder: BaseViewHolder) {}
+    open fun onViewDetachedFromWindow(holder: VH) {}
 
     /**
      * item 若想实现条目点击事件则重写该方法
@@ -88,7 +87,7 @@ abstract class BaseItemProvider<T> {
      * @param data T
      * @param position Int
      */
-    open fun onClick(helper: BaseViewHolder, view: View, data: T, position: Int) {}
+    open fun onClick(helper: VH, view: View, data: T, position: Int) {}
 
     /**
      * item 若想实现条目长按事件则重写该方法
@@ -97,13 +96,13 @@ abstract class BaseItemProvider<T> {
      * @param position Int
      * @return Boolean
      */
-    open fun onLongClick(helper: BaseViewHolder, view: View, data: T, position: Int): Boolean {
+    open fun onLongClick(helper: VH, view: View, data: T, position: Int): Boolean {
         return false
     }
 
-    open fun onChildClick(helper: BaseViewHolder, view: View, data: T, position: Int) {}
+    open fun onChildClick(helper: VH, view: View, data: T, position: Int) {}
 
-    open fun onChildLongClick(helper: BaseViewHolder, view: View, data: T, position: Int): Boolean {
+    open fun onChildLongClick(helper: VH, view: View, data: T, position: Int): Boolean {
         return false
     }
 

@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.entity.ProviderMultiEntity;
 import com.chad.baserecyclerviewadapterhelper.utils.Tips;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.chad.library.adapter.base.provider.BaseItemProvider;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @date 2018/3/30  11:39
  */
 
-public class TextItemProvider extends BaseItemProvider<ProviderMultiEntity> {
+public class TextItemProvider extends BaseItemProvider<ProviderMultiEntity, BaseDataBindingHolder> {
     @Override
     public int getItemViewType() {
         return ProviderMultiEntity.TEXT;
@@ -33,17 +33,17 @@ public class TextItemProvider extends BaseItemProvider<ProviderMultiEntity> {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @Nullable ProviderMultiEntity data) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @Nullable ProviderMultiEntity data) {
         helper.setText(R.id.tv, "CymChad content : " + helper.getAdapterPosition());
     }
 
     @Override
-    public void onClick(@NonNull BaseViewHolder helper, @NotNull View view, ProviderMultiEntity data, int position) {
+    public void onClick(@NonNull BaseDataBindingHolder helper, @NotNull View view, ProviderMultiEntity data, int position) {
         Tips.show("Click: " + position);
     }
 
     @Override
-    public boolean onLongClick(@NotNull BaseViewHolder helper, @NotNull View view, ProviderMultiEntity data, int position) {
+    public boolean onLongClick(@NotNull BaseDataBindingHolder helper, @NotNull View view, ProviderMultiEntity data, int position) {
         Tips.show("Long Click: " + position);
         return true;
     }

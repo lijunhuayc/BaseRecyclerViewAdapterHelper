@@ -1,5 +1,6 @@
 package com.chad.baserecyclerviewadapterhelper.activity.multi;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.chad.baserecyclerviewadapterhelper.entity.Video;
 import com.chad.baserecyclerviewadapterhelper.utils.Tips;
 import com.chad.library.adapter.base.BaseBinderAdapter;
 import com.chad.library.adapter.base.binder.BaseItemBinder;
+import com.chad.library.adapter.base.binder.QuickBindingItemBinder;
 import com.chad.library.adapter.base.binder.QuickDataBindingItemBinder;
 import com.chad.library.adapter.base.binder.QuickItemBinder;
 import com.chad.library.adapter.base.binder.QuickViewBindingItemBinder;
@@ -32,7 +34,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+
+import kotlin.Pair;
 
 /**
  * @author: limuyang
@@ -63,7 +68,8 @@ public class BinderUseActivity extends BaseActivity {
         // 添加 itemBinder, 各种创建方式如下
         adapter.addItemBinder(ImageEntity.class, new ImageItemBinder()) // QuickItemBinder
                 .addItemBinder(Video.class, new ImageTextItemBinder(), new ImageTextItemBinder.Differ()) // QuickViewBindingItemBinder, 并且注册了 Diff
-                .addItemBinder(Movie.class, new MovieItemBinder()) // QuickDataBindingItemBinder
+//                .addItemBinder(Movie.class, new MovieItemBinder()) // QuickDataBindingItemBinder
+                .addItemBinder(Movie.class, new MovieBindingItemBinder()) // QuickDataBindingItemBinder
                 .addItemBinder(ContentEntity.class, new ContentItemBinder()); // BaseItemBinder
 
         View headView = getLayoutInflater().inflate(R.layout.head_view, null, false);
@@ -95,6 +101,8 @@ public class BinderUseActivity extends BaseActivity {
         data.add(new Video(4, "", "Video 4"));
         data.add(new ContentEntity("Content 1"));
         data.add(new ContentEntity("Content 2"));
+        data.add(new Video(5, "", "Video c1"));
+        data.add(new Video(6, "", "Video c2"));
 
         // 设置新数据
         adapter.setList(data);
@@ -189,7 +197,24 @@ public class BinderUseActivity extends BaseActivity {
             ItemMovieBinding binding = holder.getDataBinding();
             binding.setMovie(data);
             binding.setPresenter(mPresenter);
-            binding.executePendingBindings();
+//            binding.executePendingBindings();
+        }
+    }
+
+    private final static class MovieBindingItemBinder extends QuickBindingItemBinder<Movie, ItemMovieBinding> {
+        private final MoviePresenter mPresenter = new MoviePresenter();
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void convert(@NonNull BinderDataBindingHolder2<ItemMovieBinding> holder, Movie data) {
+            ItemMovieBinding binding = holder.getDataBinding();
+            binding.setMovie(data);
+            binding.setPresenter(mPresenter);
+        }
+
+        @Override
+        public int getLayoutId() {
+            return R.layout.item_movie;
         }
     }
 

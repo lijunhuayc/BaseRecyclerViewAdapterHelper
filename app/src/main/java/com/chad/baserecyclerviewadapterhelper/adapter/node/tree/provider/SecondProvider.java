@@ -6,7 +6,7 @@ import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.entity.node.tree.SecondNode;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public class SecondProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @NotNull BaseNode data) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @NotNull BaseNode data) {
         SecondNode entity = (SecondNode) data;
         helper.setText(R.id.title, entity.getTitle());
 
@@ -35,7 +35,7 @@ public class SecondProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+    public void onClick(@NotNull BaseDataBindingHolder helper, @NotNull View view, BaseNode data, int position) {
         SecondNode entity = (SecondNode) data;
         if (entity.isExpanded()) {
             getAdapter().collapse(position);

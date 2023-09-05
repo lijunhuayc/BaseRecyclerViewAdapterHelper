@@ -1,12 +1,14 @@
 package com.chad.baserecyclerviewadapterhelper.adapter.node.section.provider;
 
 import android.view.View;
+
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.entity.node.section.RootFooterNode;
 import com.chad.baserecyclerviewadapterhelper.utils.Tips;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,13 +29,13 @@ public class RootFooterNodeProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @Nullable BaseNode data) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @Nullable BaseNode data) {
         RootFooterNode entity = (RootFooterNode) data;
         helper.setText(R.id.footerTv, entity.getTitle());
     }
 
     @Override
-    public void onChildClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+    public void onChildClick(@NotNull BaseDataBindingHolder helper, @NotNull View view, BaseNode data, int position) {
         if (view.getId() == R.id.footerTv) {
             Tips.show("Footer Node Click : " + position);
         }

@@ -5,6 +5,7 @@ import com.chad.baserecyclerviewadapterhelper.adapter.multi.provider.TextImgItem
 import com.chad.baserecyclerviewadapterhelper.adapter.multi.provider.TextItemProvider;
 import com.chad.baserecyclerviewadapterhelper.entity.ProviderMultiEntity;
 import com.chad.library.adapter.base.BaseProviderMultiAdapter;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @date: 2019-12-04
  * @Description:
  */
-public class ProviderMultiAdapter extends BaseProviderMultiAdapter<ProviderMultiEntity> {
+public class ProviderMultiAdapter extends BaseProviderMultiAdapter<ProviderMultiEntity, BaseDataBindingHolder> {
 
     public ProviderMultiAdapter() {
         super();

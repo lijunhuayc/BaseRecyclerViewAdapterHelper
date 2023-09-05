@@ -4,9 +4,9 @@ import android.view.View;
 
 import com.chad.baserecyclerviewadapterhelper.R;
 import com.chad.baserecyclerviewadapterhelper.entity.node.section.RootNode;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.chad.library.adapter.base.provider.BaseNodeProvider;
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,13 +24,13 @@ public class RootNodeProvider extends BaseNodeProvider {
     }
 
     @Override
-    public void convert(@NotNull BaseViewHolder helper, @Nullable BaseNode data) {
+    public void convert(@NotNull BaseDataBindingHolder helper, @Nullable BaseNode data) {
         RootNode entity = (RootNode) data;
         helper.setText(R.id.header, entity.getTitle());
     }
 
     @Override
-    public void onClick(@NotNull BaseViewHolder helper, @NotNull View view, BaseNode data, int position) {
+    public void onClick(@NotNull BaseDataBindingHolder helper, @NotNull View view, BaseNode data, int position) {
         getAdapter().expandOrCollapse(position);
     }
 }

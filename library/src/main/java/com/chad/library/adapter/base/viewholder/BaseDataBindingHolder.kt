@@ -11,7 +11,21 @@ import androidx.databinding.ViewDataBinding
  * @property dataBinding BD?
  * @constructor
  */
-open class BaseDataBindingHolder<BD : ViewDataBinding>(view: View) : BaseViewHolder(view) {
+open class BaseDataBindingHolder(view: View) : BaseViewHolder(view) {
 
-    val dataBinding = DataBindingUtil.bind<BD>(view)
+    private val mDataBinding: ViewDataBinding? by lazy {
+        try {
+            DataBindingUtil.bind<ViewDataBinding>(this.itemView)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 获取dataBinding
+     */
+    fun <T : ViewDataBinding> getDataBinding(): T? {
+        return mDataBinding as T?
+    }
 }

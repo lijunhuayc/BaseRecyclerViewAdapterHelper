@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @Description: DataBinding Adapter
  *
  */
-public class DataBindingAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder<ItemMovieBinding>> {
+public class DataBindingAdapter extends BaseQuickAdapter<Movie, BaseDataBindingHolder> {
 
     private MoviePresenter mPresenter = new MoviePresenter();
 
@@ -24,7 +24,7 @@ public class DataBindingAdapter extends BaseQuickAdapter<Movie, BaseDataBindingH
     }
 
     @Override
-    protected void convert(@NotNull BaseDataBindingHolder<ItemMovieBinding> holder, Movie item) {
+    protected void convert(@NotNull BaseDataBindingHolder holder, Movie item) {
         // 获取 Binding
         ItemMovieBinding binding = holder.getDataBinding();
         if (binding != null) {

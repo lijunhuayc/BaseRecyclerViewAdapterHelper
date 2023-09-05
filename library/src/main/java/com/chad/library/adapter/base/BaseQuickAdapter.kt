@@ -611,7 +611,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
         return createBaseViewHolder(parent, layoutResId)
     }
 
-    protected open fun createBaseViewHolder(parent: ViewGroup, @LayoutRes layoutResId: Int): VH {
+    internal open fun createBaseViewHolder(parent: ViewGroup, @LayoutRes layoutResId: Int): VH {
         return createBaseViewHolder(parent.getItemView(layoutResId))
     }
 
